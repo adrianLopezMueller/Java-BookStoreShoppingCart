@@ -24,21 +24,24 @@
 	                <th>Title</th>
 	                <th>Author</th>
 	                <th>Price</th>
-                  <th>Quantity</th>
-                  <th>Total Cost</th>
-                  <th></th>
+                    <th>Quantity</th>
+                    <th>Total Cost</th>
+                    <th></th>
 	            </tr>
 
-      	 			<c:forEach items="${cart.cartItems}" var="cartItem">
-                  <tr>
-                      <td> ${ cartItem.getTitle() } </td>
-                      <td> ${ cartItem.getAuthor() } </td>
-                      <td> <fmt:formatNumber value = "${ cartItem.getPrice() }" type = "currency"/>  </td>
-                      <td>${ cartItem.getQuantity() }</td>
-                      <td> <fmt:formatNumber value = "${ cartItem.getTotalCost() }" type = "currency"/> </td>
-                      <td>Update Delete</td>
-                  </tr>
-              </c:forEach>
+                <c:forEach items="${cart.cartItems}" var="cartItem" varStatus="loop">
+                <tr>
+                    <form action="/cart/update" name="cart_form">
+                        <td> <input type="hidden" name="index" value="<c:out value='${loop.index}' />" /> </td>
+                        <td> ${ cartItem.getTitle() } </td>
+                        <td> ${ cartItem.getAuthor() } </td>
+                        <td> <fmt:formatNumber value = "${ cartItem.getPrice() }" type = "currency"/>  </td>
+                        <td> <input type="number" name="quantity" min="1" max="50" value="${ cartItem.getQuantity() }" /> </td>
+                        <td> <fmt:formatNumber value = "${ cartItem.getTotalCost() }" type = "currency"/> </td>
+                        <td> <input type="submit" value="Update" /> <input type="submit" formaction="/cart/delete" value="Delete" /> </td>
+                    </form>
+                </tr>
+                </c:forEach>
 	        </table>
 	    </div>
     </div>
